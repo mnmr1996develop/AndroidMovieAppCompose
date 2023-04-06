@@ -18,6 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.michaelrichards.movieapp.model.Movie
+import com.michaelrichards.movieapp.model.getMovies
+import com.michaelrichards.movieapp.navigations.MovieScreens
+import com.michaelrichards.movieapp.widgets.MovieRow
 
 private const val TAG = "HomeScreen"
 
@@ -29,11 +33,6 @@ fun HomeScreen(navController: NavController){
             TopAppBar(backgroundColor = Color.Magenta, elevation = 5.dp) {
                 Text(text = "Movies")
             }
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
-
-            }
         }
     ) {
         MainContent(navController = navController)
@@ -42,12 +41,13 @@ fun HomeScreen(navController: NavController){
 
 
 @Composable
-fun MainContent(navController: NavController ,movieList: List<String> = listOf("Avatar", "300", "Infinity War", "Black Panther", "Uncharted", "Black Widow")) {
+fun MainContent(navController: NavController ,movieList: List<Movie> = getMovies()) {
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn{
             items(items = movieList){
                 MovieRow(movie = it){movie ->
-                    Log.i(TAG, "MainContent: $movie")
+                    //Log.i(TAG, "MainContent: $movie")
+                    navController.navigate(route = MovieScreens.DETAILSCREEN.name + "/$movie")
                 }
             }
         }
@@ -55,26 +55,4 @@ fun MainContent(navController: NavController ,movieList: List<String> = listOf("
 
 }
 
-@Composable
-fun MovieRow(movie: String, onItemClick: (String) -> Unit = {}){
-    Card(modifier = Modifier
-        .padding(4.dp)
-        .fillMaxWidth()
-        .height(130.dp)
-        .clickable {
-            onItemClick(movie)
-        },
-        shape = RoundedCornerShape(corner = CornerSize(20.dp))
-        , elevation = 8.dp) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start) {
-            Surface(modifier = Modifier
-                .padding(12.dp)
-                .size(100.dp), shape = RectangleShape, elevation = 4.dp) {
-                Icon(imageVector = Icons.Default.AccountBox , contentDescription = "$movie Image")
-
-            }
-            Text(text = movie)
-        }
-    }
-}
 
