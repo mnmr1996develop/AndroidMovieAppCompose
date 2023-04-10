@@ -25,6 +25,8 @@ import com.michaelrichards.movieapp.navigations.MovieNavigation
 import com.michaelrichards.movieapp.ui.theme.MovieAppTheme
 
 class MainActivity : ComponentActivity() {
+
+    val apiKey = BuildConfig.API_KEY
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
